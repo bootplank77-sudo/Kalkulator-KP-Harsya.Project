@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalkulator Collection Kursi Pijat</title>
+<style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#193047;background:#f2f6fa}
+*{box-sizing:border-box}
+body{margin:0;padding:14px}
+main{max-width:1000px;margin:auto}
+header{background:linear-gradient(135deg,#142b49,#2465a8);color:white;padding:25px 20px;border-radius:20px;margin-bottom:16px}
+h1{font-size:27px;margin:0 0 8px}
+h2{font-size:18px;margin:0 0 15px}
+p{line-height:1.5}
+.muted{color:#718096;font-size:13px}
+.panel{background:white;padding:18px;border:1px solid #e1e8f0;border-radius:17px;margin-bottom:15px;box-shadow:0 5px 18px #1734530a}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:#53657b}
+input{width:100%;min-width:0;padding:12px;border:1px solid #d5deea;border-radius:10px;font:inherit;background:#fbfdff;color:#193047}
+button{border:0;border-radius:10px;padding:11px 14px;font:inherit;font-weight:700;cursor:pointer}
+.primary{background:#1769c2;color:white}
+.secondary{background:#eaf1f9;color:#234768}
+.danger{background:#ffeded;color:#b52e35}
+.tabs,.actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tab{background:#eaf1f9;color:#234768}
+.tab.active{background:#1769c2;color:white}
+.statgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{background:#f4f8fc;padding:14px;border-radius:12px;min-width:0}
+.stat small{display:block;font-size:12px;color:#728197;margin-bottom:7px}
+.stat strong{font-size:18px;overflow-wrap:anywhere}
+.notice{padding:13px;border-radius:11px;margin:12px 0;font-size:13px;line-height:1.6}
+.warn{background:#fff4dd;color:#875500}
+.ok{background:#e8f8ee;color:#17643a}
+.row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #e7edf3;font-size:14px}
+.row strong{text-align:right}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap}
+th,td{text-align:left;padding:11px;border-bottom:1px solid #e6edf4}
+th{background:#f4f7fb;color:#5f7085}
+footer{text-align:center;color:#8190a2;font-size:12px;padding:12px}
+@media(min-width:650px){.statgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:420px){body{padding:9px}.panel{padding:13px}header{padding:20px 16px}.grid{gap:9px}.stat strong{font-size:16px}}
+@media print{body{background:white}.no-print{display:none!important}.panel{box-shadow:none;break-inside:avoid}header{background:white;color:#193047;border:1px solid #ddd}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div style="font-size:11px;letter-spacing:2px;opacity:.8">OPERASIONAL • COLLECTION</div>
+<h1>Kalkulator Collection<br>Kursi Pijat</h1>
+<p style="margin-bottom:0;color:#dcecff;font-size:14px">Hitung durasi, Money, estimasi pendapatan, dan rekap seluruh kursi.</p>
+</header>
+
+<section class="panel">
+<h2>Dashboard Collection</h2>
+<div class="statgrid">
+<div class="stat"><small>Total kursi</small><strong id="count">1</strong></div>
+<div class="stat"><small>Total pendapatan</small><strong id="totalActual">Rp0</strong></div>
+<div class="stat"><small>Estimasi dari waktu</small><strong id="totalTime">Rp0</strong></div>
+<div class="stat"><small>Estimasi dari Money</small><strong id="totalMoney">Rp0</strong></div>
+<div class="stat"><small>Kursi perlu diperiksa</small><strong id="warningCount">0</strong></div>
+<div class="stat"><small>Penyimpanan</small><strong id="saveState">Aktif</strong></div>
+</div>
+<p class="muted">Data disimpan otomatis di browser perangkat ini.</p>
+</section>
+
+<section class="panel">
+<h2>Pengaturan tarif</h2>
+<div class="grid">
+<div><label>Nominal per paket (Rp)</label><input id="rate" type="number" min="1" value="10000"></div>
+<div><label>Durasi per paket (menit)</label><input id="mins" type="number" min="1" value="7"></div>
+</div>
+</section>
+
+<section class="panel">
+<h2>Data kursi</h2>
+<div id="tabs" class="tabs"></div>
+<div class="actions no-print"><button class="primary" id="add">＋ Tambah kursi</button><button class="danger" id="remove">Hapus kursi</button><button class="secondary" id="reset">Reset kursi ini</button></div>
+<div class="grid">
+<div><label>Waktu sebelumnya (jam:menit)</label><input id="start" value="000:00" placeholder="818:06"></div>
+<div><label>Waktu saat ini (jam:menit)</label><input id="end" value="000:00" placeholder="840:30"></div>
+<div><label>Money sebelumnya</label><input id="moneyStart" type="number" min="0" value="0"></div>
+<div><label>Money saat ini</label><input id="moneyEnd" type="number" min="0" value="0"></div>
+<div style="grid-column:1/-1"><label>Total pendapatan aktual (Rp)</label><input id="revenue" type="number" min="0" value="0"></div>
+</div>
+<div id="alert" class="notice warn">Isi tarif, durasi, dan data kursi untuk memulai.</div>
+</section>
+
+<section class="panel">
+<h2>Hasil kursi terpilih</h2>
+<div class="statgrid">
+<div class="stat"><small>Durasi pemakaian</small><strong id="duration">—</strong></div>
+<div class="stat"><small>Jumlah paket penuh</small><strong id="packages">—</strong></div>
+<div class="stat"><small>Estimasi dari waktu</small><strong id="timeEstimate">—</strong></div>
+<div class="stat"><small>Selisih Money</small><strong id="moneyDiff">—</strong></div>
+<div class="stat"><small>Estimasi dari Money</small><strong id="moneyEstimate">—</strong></div>
+<div class="stat"><small>Pendapatan aktual</small><strong id="actual">—</strong></div>
+</div>
+<div class="row"><span>Selisih terhadap estimasi waktu</span><strong id="diffTime">—</strong></div>
+<div class="row"><span>Selisih terhadap estimasi Money</span><strong id="diffMoney">—</strong></div>
+</section>
+
+<section class="panel">
+<h2>Rekap seluruh kursi</h2>
+<div class="tablewrap"><table>
+<thead><tr><th>Kursi</th><th>Durasi</th><th>Money Δ</th><th>Estimasi waktu</th><th>Estimasi Money</th><th>Pendapatan</th><th>Status</th></tr></thead>
+<tbody id="rows"></tbody>
+</table></div>
+<div class="row"><span>Total pendapatan</span><strong id="grand">Rp0</strong></div>
+<div class="actions no-print">
+<button class="primary" id="pdf">Cetak / PDF</button>
+<button class="primary" id="excel">Ekspor Excel (.xlsx)</button>
+<button class="secondary" id="csv">Ekspor CSV</button>
+<button class="secondary" id="copy">Salin rekap</button>
+</div>
+</section>
+<footer>Collection Kursi Pijat • Simpan laporan secara berkala.</footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const key="collectionKursiPijatPublicV1";
+const blank=()=>({start:"000:00",end:"000:00",moneyStart:"0",moneyEnd:"0",revenue:"0"});
+let data=[blank()],current=0;
+
+function save(){
+ try{
+ localStorage.setItem(key,JSON.stringify({data,current,rate:$("rate").value,mins:$("mins").value}));
+ $("saveState").textContent="Tersimpan ✓";
+ }catch(e){$("saveState").textContent="Tidak tersedia";}
+}
+function restore(){
+ try{
+ const s=JSON.parse(localStorage.getItem(key)||"null");
+ if(s&&Array.isArray(s.data)&&s.data.length){
+ data=s.data;current=Math.min(s.current||0,data.length-1);
+ $("rate").value=s.rate??"10000";$("mins").value=s.mins??"7";
+ }
+ }catch(e){}
+}
+function money(n){return "Rp"+Math.round(n||0).toLocaleString("id-ID")}
+function num(v){if(String(v).trim()==="")return null;let n=Number(v);return Number.isFinite(n)&&n>=0?n:null}
+function parseTime(v){let m=String(v).trim().match(/^(\d+):([0-5]\d)$/);return m?Number(m[1])*60+Number(m[2]):null}
+function store(){data[current]={start:$("start").value,end:$("end").value,moneyStart:$("moneyStart").value,moneyEnd:$("moneyEnd").value,revenue:$("revenue").value}}
+function calc(d){
+ let a=parseTime(d.start),b=parseTime(d.end),ma=num(d.moneyStart),mb=num(d.moneyEnd),rev=num(d.revenue);
+ let rate=num($("rate").value),mins=num($("mins").value);
+ let vt=a!==null&&b!==null&&b>=a&&rate>0&&mins>0;
+ let vm=ma!==null&&mb!==null&&mb>=ma&&rate>0;
+ let elapsed=vt?b-a:null,delta=vm?mb-ma:null;
+ let packs=vt?Math.floor(elapsed/mins):null;
+ let ti=vt?packs*rate:null,mi=vm?delta*rate:null;
+ let issues=[];
+ if(!vt)issues.push("Periksa waktu, tarif, dan durasi paket.");
+ if(!vm)issues.push("Periksa angka Money.");
+ if(rev===null)issues.push("Pendapatan belum valid.");
+ if(ti!==null&&rev!==null&&rev<ti)issues.push("Pendapatan di bawah estimasi waktu.");
+ if(mi!==null&&rev!==null&&rev<mi)issues.push("Pendapatan di bawah estimasi Money.");
+ return {vt,vm,valid:rev!==null,elapsed,delta,packs,ti,mi,rev,issues};
+}
+function renderTabs(){
+ $("tabs").innerHTML=data.map((d,i)=>`<button class="tab ${i===current?"active":""}" data-i="${i}">Kursi ${i+1}</button>`).join("");
+ $("tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{store();current=Number(b.dataset.i);load()});
+}
+function load(){
+ let d=data[current];
+ ["start","end","moneyStart","moneyEnd","revenue"].forEach(k=>$(k).value=d[k]);
+ $("remove").disabled=data.length===1;
+ render();
+}
+function render(){
+ store();
+ let all=data.map(calc),r=all[current];
+ $("count").textContent=data.length;
+ $("duration").textContent=r.vt?Math.floor(r.elapsed/60)+" jam "+r.elapsed%60+" menit":"—";
+ $("packages").textContent=r.vt?r.packs+" paket":"—";
+ $("timeEstimate").textContent=r.ti===null?"—":money(r.ti);
+ $("moneyDiff").textContent=r.delta===null?"—":r.delta.toLocaleString("id-ID");
+ $("moneyEstimate").textContent=r.mi===null?"—":money(r.mi);
+ $("actual").textContent=r.rev===null?"—":money(r.rev);
+ $("diffTime").textContent=r.ti===null||r.rev===null?"—":(r.rev-r.ti>=0?"+":"−")+money(Math.abs(r.rev-r.ti));
+ $("diffMoney").textContent=r.mi===null||r.rev===null?"—":(r.rev-r.mi>=0?"+":"−")+money(Math.abs(r.rev-r.mi));
+ $("alert").className="notice "+(r.issues.length?"warn":"ok");
+ $("alert").innerHTML=r.issues.length?"<b>Perlu diperiksa</b><br>"+r.issues.join("<br>"):"✓ Tidak ada kekurangan yang terdeteksi.";
+ $("totalActual").textContent=all.every(x=>x.valid)?money(all.reduce((s,x)=>s+x.rev,0)):"Input belum valid";
+ $("totalTime").textContent=all.every(x=>x.ti!==null)?money(all.reduce((s,x)=>s+x.ti,0)):"Input belum valid";
+ $("totalMoney").textContent=all.every(x=>x.mi!==null)?money(all.reduce((s,x)=>s+x.mi,0)):"Input belum valid";
+ $("warningCount").textContent=all.filter(x=>x.issues.length).length;
+ $("grand").textContent=all.every(x=>x.valid)?money(all.reduce((s,x)=>s+x.rev,0)):"Input belum valid";
+ $("rows").innerHTML=all.map((x,i)=>`<tr><td>Kursi ${i+1}</td><td>${x.vt?Math.floor(x.elapsed/60)+"j "+x.elapsed%60+"m":"—"}</td><td>${x.delta===null?"—":x.delta}</td><td>${x.ti===null?"—":money(x.ti)}</td><td>${x.mi===null?"—":money(x.mi)}</td><td>${x.rev===null?"—":money(x.rev)}</td><td>${x.issues.length?"Periksa":"Sesuai"}</td></tr>`).join("");
+ renderTabs();save();
+}
+["start","end","moneyStart","moneyEnd","revenue","rate","mins"].forEach(id=>$(id).addEventListener("input",render));
+$("add").onclick=()=>{store();data.push(blank());current=data.length-1;load()};
+$("remove").onclick=()=>{if(data.length<=1)return;data.splice(current,1);current=Math.max(0,current-1);load()};
+$("reset").onclick=()=>{data[current]=blank();load()};
+$("pdf").onclick=()=>window.print();
+$("copy").onclick=async()=>{let text=$("rows").innerText;try{await navigator.clipboard.writeText(text);alert("Rekap disalin")}catch(e){prompt("Salin rekap:",text)}};
+function exportRows(){return data.map((d,i)=>{let x=calc(d);return {"Kursi":"Kursi "+(i+1),"Waktu sebelumnya":d.start,"Waktu saat ini":d.end,"Durasi":x.vt?Math.floor(x.elapsed/60)+" jam "+x.elapsed%60+" menit":"Input tidak valid","Money sebelumnya":d.moneyStart,"Money saat ini":d.moneyEnd,"Selisih Money":x.delta??"","Tarif per paket":$("rate").value,"Durasi paket menit":$("mins").value,"Estimasi waktu":x.ti??"","Estimasi Money":x.mi??"","Pendapatan":x.rev??"","Status":x.issues.join(" ")||"Sesuai"}})}
+function download(name,blob){let url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
+$("csv").onclick=()=>{let rr=exportRows(),keys=Object.keys(rr[0]);let text=[keys,...rr.map(r=>keys.map(k=>r[k]))].map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");download("rekap_collection.csv",new Blob(["\ufeff"+text],{type:"text/csv;charset=utf-8"}))};
+$("excel").onclick=()=>{let rr=exportRows(),keys=Object.keys(rr[0]);let table="<table><tr>"+keys.map(k=>"<th>"+k+"</th>").join("")+"</tr>"+rr.map(r=>"<tr>"+keys.map(k=>"<td>"+String(r[k]??"").replace(/&/g,"&amp;").replace(/</g,"&lt;")+"</td>").join("")+"</tr>").join("")+"</table>";download("rekap_collection.xls",new Blob(['<html><head><meta charset="utf-8"></head><body><h2>Rekap Collection Kursi Pijat</h2>'+table+'</body></html>'],{type:"application/vnd.ms-excel"}))};
+restore();load();
+</script>
+</body>
+  </html>
