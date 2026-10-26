@@ -117,8 +117,10 @@ footer{text-align:center;color:#8190a2;font-size:12px;padding:12px}
 </section>
 <footer>Collection Kursi Pijat • Simpan laporan secara berkala.</footer>
 </main>
+ 
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 
-<script>
+ <script>
 const $=id=>document.getElementById(id);
 const key="collectionKursiPijatPublicV1";
 const blank=()=>({start:"000:00",end:"000:00",moneyStart:"0",moneyEnd:"0",revenue:"0"});
@@ -200,7 +202,42 @@ $("copy").onclick=async()=>{let text=$("rows").innerText;try{await navigator.cli
 function exportRows(){return data.map((d,i)=>{let x=calc(d);return {"Kursi":"Kursi "+(i+1),"Waktu sebelumnya":d.start,"Waktu saat ini":d.end,"Durasi":x.vt?Math.floor(x.elapsed/60)+" jam "+x.elapsed%60+" menit":"Input tidak valid","Money sebelumnya":d.moneyStart,"Money saat ini":d.moneyEnd,"Selisih Money":x.delta??"","Tarif per paket":$("rate").value,"Durasi paket menit":$("mins").value,"Estimasi waktu":x.ti??"","Estimasi Money":x.mi??"","Pendapatan":x.rev??"","Status":x.issues.join(" ")||"Sesuai"}})}
 function download(name,blob){let url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
 $("csv").onclick=()=>{let rr=exportRows(),keys=Object.keys(rr[0]);let text=[keys,...rr.map(r=>keys.map(k=>r[k]))].map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");download("rekap_collection.csv",new Blob(["\ufeff"+text],{type:"text/csv;charset=utf-8"}))};
-$("excel").onclick=()=>{let rr=exportRows(),keys=Object.keys(rr[0]);let table="<table><tr>"+keys.map(k=>"<th>"+k+"</th>").join("")+"</tr>"+rr.map(r=>"<tr>"+keys.map(k=>"<td>"+String(r[k]??"").replace(/&/g,"&amp;").replace(/</g,"&lt;")+"</td>").join("")+"</tr>").join("")+"</table>";download("rekap_collection.xls",new Blob(['<html><head><meta charset="utf-8"></head><body><h2>Rekap Collection Kursi Pijat</h2>'+table+'</body></html>'],{type:"application/vnd.ms-excel"}))};
+$("excel").onclick=()=>{
+  try {
+    if (!window.XLSX) {
+      alert("Library Excel belum dimuat. Periksa koneksi internet, lalu muat ulang halaman.");
+      return;
+    }
+
+    const rows = exportRows();
+    const wb = XLSX.utils.book_new();
+
+    const ws = XLSX.utils.json_to_sheet(rows);
+
+    ws["!cols"] = [
+      {wch:12},{wch:18},{wch:18},{wch:20},
+      {wch:18},{wch:18},{wch:15},{wch:16},
+      {wch:18},{wch:18},{wch:18},{wch:18},{wch:40}
+    ];
+
+    XLSX.utils.book_append_sheet(wb, ws, "Rekap Collection");
+
+    const summary = [
+      ["RINGKASAN COLLECTION KURSI PIJAT", "Nilai"],
+      ["Jumlah kursi", data.length],
+      ["Tarif per paket (Rp)", Number($("rate").value) || 0],
+      ["Durasi per paket (menit)", Number($("mins").value) || 0],
+      ["Total pendapatan aktual (Rp)", data.reduce((s,d) => s + (Number(d.revenue) || 0), 0)]
+    ];
+
+    const ws2 = XLSX.utils.aoa_to_sheet(summary);
+    XLSX.utils.book_append_sheet(wb, ws2, "Ringkasan");
+
+    XLSX.writeFile(wb, "Rekap_Collection_Kursi_Pijat.xlsx");
+  } catch (err) {
+    alert("Ekspor Excel gagal: " + err.message);
+  }
+};
 restore();load();
 </script>
 </body>
