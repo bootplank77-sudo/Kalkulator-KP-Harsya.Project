@@ -2,243 +2,93 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
 <title>Kalkulator Collection Kursi Pijat</title>
 <style>
-:root{font-family:system-ui,-apple-system,sans-serif;color:#193047;background:#f2f6fa}
-*{box-sizing:border-box}
-body{margin:0;padding:14px}
-main{max-width:1000px;margin:auto}
-header{background:linear-gradient(135deg,#142b49,#2465a8);color:white;padding:25px 20px;border-radius:20px;margin-bottom:16px}
-h1{font-size:27px;margin:0 0 8px}
-h2{font-size:18px;margin:0 0 15px}
-p{line-height:1.5}
-.muted{color:#718096;font-size:13px}
-.panel{background:white;padding:18px;border:1px solid #e1e8f0;border-radius:17px;margin-bottom:15px;box-shadow:0 5px 18px #1734530a}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:#53657b}
-input{width:100%;min-width:0;padding:12px;border:1px solid #d5deea;border-radius:10px;font:inherit;background:#fbfdff;color:#193047}
-button{border:0;border-radius:10px;padding:11px 14px;font:inherit;font-weight:700;cursor:pointer}
-.primary{background:#1769c2;color:white}
-.secondary{background:#eaf1f9;color:#234768}
-.danger{background:#ffeded;color:#b52e35}
-.tabs,.actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.tab{background:#eaf1f9;color:#234768}
-.tab.active{background:#1769c2;color:white}
-.statgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.stat{background:#f4f8fc;padding:14px;border-radius:12px;min-width:0}
-.stat small{display:block;font-size:12px;color:#728197;margin-bottom:7px}
-.stat strong{font-size:18px;overflow-wrap:anywhere}
-.notice{padding:13px;border-radius:11px;margin:12px 0;font-size:13px;line-height:1.6}
-.warn{background:#fff4dd;color:#875500}
-.ok{background:#e8f8ee;color:#17643a}
-.row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #e7edf3;font-size:14px}
-.row strong{text-align:right}
-.tablewrap{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap}
-th,td{text-align:left;padding:11px;border-bottom:1px solid #e6edf4}
-th{background:#f4f7fb;color:#5f7085}
-footer{text-align:center;color:#8190a2;font-size:12px;padding:12px}
-@media(min-width:650px){.statgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:420px){body{padding:9px}.panel{padding:13px}header{padding:20px 16px}.grid{gap:9px}.stat strong{font-size:16px}}
-@media print{body{background:white}.no-print{display:none!important}.panel{box-shadow:none;break-inside:avoid}header{background:white;color:#193047;border:1px solid #ddd}}
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#e8edf7;background:#0b1120;--panel:#141e30;--border:#2a3850;--muted:#9baac2;--blue:#4d8dff;--green:#30d6a0;--red:#ff7373}
+*{box-sizing:border-box}body{margin:0;background:#0b1120;color:#e8edf7}.container{max-width:1150px;margin:auto;padding:18px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}h1{font-size:clamp(22px,4vw,32px);margin:0 0 5px}h2{font-size:18px;margin:0 0 15px}h3{font-size:16px;margin:0}p{color:var(--muted);font-size:13px;margin:5px 0}
+.panel,.stat,.chair{background:var(--panel);border:1px solid var(--border);border-radius:14px}.panel{padding:17px;margin-bottom:17px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-bottom:17px}.stat{padding:14px;min-width:0}.stat-label{color:var(--muted);font-size:12px;margin-bottom:7px}.stat-value{font-size:clamp(17px,3vw,24px);font-weight:750;overflow-wrap:anywhere}
+.green{color:var(--green)}.red{color:var(--red)}.blue{color:#83b3ff}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+label{color:#bdc9dc;font-size:12px}input{width:100%;min-width:0;padding:11px;border-radius:9px;border:1px solid #35445d;background:#0c1525;color:#fff;font:inherit;font-size:14px}input:focus{outline:2px solid #4d8dff66;border-color:var(--blue)}
+button{border:0;border-radius:9px;padding:11px 14px;background:var(--blue);color:white;font:inherit;font-weight:650;cursor:pointer}button.secondary{background:#25334b;border:1px solid #3a4b65}button.danger{background:#47242f;border:1px solid #78404b;color:#ffb5bd}button.small{padding:7px 10px;font-size:12px}button:disabled{opacity:.6}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}.chair-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.chair{padding:15px;min-width:0}.chair-head{display:flex;justify-content:space-between;align-items:center;gap:9px;margin-bottom:14px}
+.chair-result{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}.result-box{padding:10px;border:1px solid var(--border);border-radius:9px;background:#0e1728;min-width:0}.result-label{font-size:11px;color:var(--muted);margin-bottom:5px}.result-value{font-weight:700;overflow-wrap:anywhere}
+.notice{border-radius:9px;padding:10px;margin-top:11px;font-size:12px;background:#122c29;color:#9cf0d5}.notice.warning{background:#392b19;color:#ffd68b}.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:9px}table{width:100%;border-collapse:collapse;min-width:780px;font-size:12px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);white-space:nowrap}th{background:#1c2940;color:#c6d7f2}tr:last-child td{border-bottom:0}.empty{padding:24px;text-align:center;color:var(--muted)}.footer{text-align:center;padding:10px 0 24px;color:var(--muted);font-size:12px}
+@media(max-width:700px){.container{padding:12px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid,.chair-list{grid-template-columns:1fr}.panel{padding:13px}.stat{padding:12px}}
+@media print{body{background:white;color:black}.container{max-width:none;padding:0}.panel,.stat,.chair{background:white;color:black;border:1px solid #bbb;break-inside:avoid}.stat-label,p,label,.result-label,.footer{color:#555}button,.no-print{display:none!important}.stats{grid-template-columns:repeat(3,1fr)}.chair-list{grid-template-columns:repeat(2,1fr)}th{background:#eee;color:black}th,td{border:1px solid #bbb}}
 </style>
 </head>
 <body>
-<main>
-<header>
-<div style="font-size:11px;letter-spacing:2px;opacity:.8">OPERASIONAL • COLLECTION</div>
-<h1>Kalkulator Collection<br>Kursi Pijat</h1>
-<p style="margin-bottom:0;color:#dcecff;font-size:14px">Hitung durasi, Money, estimasi pendapatan, dan rekap seluruh kursi.</p>
-</header>
-
-<section class="panel">
-<h2>Dashboard Collection</h2>
-<div class="statgrid">
-<div class="stat"><small>Total kursi</small><strong id="count">1</strong></div>
-<div class="stat"><small>Total pendapatan</small><strong id="totalActual">Rp0</strong></div>
-<div class="stat"><small>Estimasi dari waktu</small><strong id="totalTime">Rp0</strong></div>
-<div class="stat"><small>Estimasi dari Money</small><strong id="totalMoney">Rp0</strong></div>
-<div class="stat"><small>Kursi perlu diperiksa</small><strong id="warningCount">0</strong></div>
-<div class="stat"><small>Penyimpanan</small><strong id="saveState">Aktif</strong></div>
-</div>
-<p class="muted">Data disimpan otomatis di browser perangkat ini.</p>
+<div class="container">
+<header><div><h1>🪑 Kalkulator Collection</h1><p>Pengelolaan dan rekap pendapatan kursi pijat</p></div><button id="addTop">＋ Tambah Kursi</button></header>
+<section class="stats">
+<div class="stat"><div class="stat-label">Total Kursi</div><div class="stat-value blue" id="totalChairs">0</div></div>
+<div class="stat"><div class="stat-label">Pendapatan Aktual</div><div class="stat-value green" id="totalActual">Rp0</div></div>
+<div class="stat"><div class="stat-label">Estimasi dari Waktu</div><div class="stat-value" id="totalTime">Rp0</div></div>
+<div class="stat"><div class="stat-label">Estimasi dari Money</div><div class="stat-value" id="totalMoney">Rp0</div></div>
+<div class="stat"><div class="stat-label">Selisih Aktual vs Waktu</div><div class="stat-value" id="totalDiff">Rp0</div></div>
+<div class="stat"><div class="stat-label">Status Pemeriksaan</div><div class="stat-value" id="warningCount">Aman</div></div>
 </section>
-
-<section class="panel">
-<h2>Pengaturan tarif</h2>
-<div class="grid">
-<div><label>Nominal per paket (Rp)</label><input id="rate" type="number" min="1" value="10000"></div>
-<div><label>Durasi per paket (menit)</label><input id="mins" type="number" min="1" value="7"></div>
+<section class="panel"><h2>⚙️ Pengaturan</h2><div class="grid">
+<div class="field"><label for="rate">Tarif per paket (Rp)</label><input id="rate" type="number" min="0" step="500" value="10000"></div>
+<div class="field"><label for="minutes">Durasi per paket (menit)</label><input id="minutes" type="number" min="1" step="1" value="7"></div>
+</div><p style="margin-top:11px">Estimasi waktu dihitung berdasarkan paket penuh. Sesuaikan tarif dan durasi dengan mesin yang digunakan.</p></section>
+<section class="panel"><h2>📋 Data Kursi Pijat</h2><p style="margin-bottom:13px">Format waktu adalah jam:menit, misalnya 818:06.</p><div id="chairs" class="chair-list"></div><div class="actions"><button id="addBottom">＋ Tambah Kursi</button><button class="secondary" id="reset">Reset Semua Data</button></div></section>
+<section class="panel"><h2>📊 Rekap Collection</h2><div class="actions no-print" style="margin-top:0;margin-bottom:13px"><button id="excel">⬇ Ekspor Excel (.xlsx)</button><button class="secondary" id="csv">⬇ Ekspor CSV</button><button class="secondary" id="pdf">Cetak / Simpan PDF</button><button class="secondary" id="copy">Salin Rekap</button></div>
+<div class="table-wrap"><table><thead><tr><th>Nama Kursi</th><th>Waktu Awal</th><th>Waktu Akhir</th><th>Durasi</th><th>Paket</th><th>Money Awal</th><th>Money Akhir</th><th>Selisih Money</th><th>Estimasi Waktu</th><th>Estimasi Money</th><th>Aktual</th><th>Selisih Aktual</th></tr></thead><tbody id="summary"></tbody></table></div><p id="saveStatus" style="margin-top:11px">Data tersimpan di browser ini.</p></section>
+<div class="footer">Kalkulator Collection Kursi Pijat · Penyimpanan lokal di browser</div>
 </div>
-</section>
-
-<section class="panel">
-<h2>Data kursi</h2>
-<div id="tabs" class="tabs"></div>
-<div class="actions no-print"><button class="primary" id="add">＋ Tambah kursi</button><button class="danger" id="remove">Hapus kursi</button><button class="secondary" id="reset">Reset kursi ini</button></div>
-<div class="grid">
-<div><label>Waktu sebelumnya (jam:menit)</label><input id="start" value="000:00" placeholder="818:06"></div>
-<div><label>Waktu saat ini (jam:menit)</label><input id="end" value="000:00" placeholder="840:30"></div>
-<div><label>Money sebelumnya</label><input id="moneyStart" type="number" min="0" value="0"></div>
-<div><label>Money saat ini</label><input id="moneyEnd" type="number" min="0" value="0"></div>
-<div style="grid-column:1/-1"><label>Total pendapatan aktual (Rp)</label><input id="revenue" type="number" min="0" value="0"></div>
-</div>
-<div id="alert" class="notice warn">Isi tarif, durasi, dan data kursi untuk memulai.</div>
-</section>
-
-<section class="panel">
-<h2>Hasil kursi terpilih</h2>
-<div class="statgrid">
-<div class="stat"><small>Durasi pemakaian</small><strong id="duration">—</strong></div>
-<div class="stat"><small>Jumlah paket penuh</small><strong id="packages">—</strong></div>
-<div class="stat"><small>Estimasi dari waktu</small><strong id="timeEstimate">—</strong></div>
-<div class="stat"><small>Selisih Money</small><strong id="moneyDiff">—</strong></div>
-<div class="stat"><small>Estimasi dari Money</small><strong id="moneyEstimate">—</strong></div>
-<div class="stat"><small>Pendapatan aktual</small><strong id="actual">—</strong></div>
-</div>
-<div class="row"><span>Selisih terhadap estimasi waktu</span><strong id="diffTime">—</strong></div>
-<div class="row"><span>Selisih terhadap estimasi Money</span><strong id="diffMoney">—</strong></div>
-</section>
-
-<section class="panel">
-<h2>Rekap seluruh kursi</h2>
-<div class="tablewrap"><table>
-<thead><tr><th>Kursi</th><th>Durasi</th><th>Money Δ</th><th>Estimasi waktu</th><th>Estimasi Money</th><th>Pendapatan</th><th>Status</th></tr></thead>
-<tbody id="rows"></tbody>
-</table></div>
-<div class="row"><span>Total pendapatan</span><strong id="grand">Rp0</strong></div>
-<div class="actions no-print">
-<button class="primary" id="pdf">Cetak / PDF</button>
-<button class="primary" id="excel">Ekspor Excel (.xlsx)</button>
-<button class="secondary" id="csv">Ekspor CSV</button>
-<button class="secondary" id="copy">Salin rekap</button>
-</div>
-</section>
-<footer>Collection Kursi Pijat • Simpan laporan secara berkala.</footer>
-</main>
- 
-<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-
- <script>
-const $=id=>document.getElementById(id);
-const key="collectionKursiPijatPublicV1";
-const blank=()=>({start:"000:00",end:"000:00",moneyStart:"0",moneyEnd:"0",revenue:"0"});
-let data=[blank()],current=0;
-
-function save(){
- try{
- localStorage.setItem(key,JSON.stringify({data,current,rate:$("rate").value,mins:$("mins").value}));
- $("saveState").textContent="Tersimpan ✓";
- }catch(e){$("saveState").textContent="Tidak tersedia";}
+<script>
+"use strict";
+const $=id=>document.getElementById(id), KEY="collectionKursiPijat_v3";
+const money=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(n)||0);
+const num=v=>{const n=Number(v);return Number.isFinite(n)?n:0};
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function fresh(i){return{id:"c"+Date.now()+Math.random().toString(36).slice(2,7),name:"Kursi "+i,startTime:"",endTime:"",startMoney:"",endMoney:"",actual:""}}
+let state={rate:10000,minutes:7,chairs:[fresh(1),fresh(2),fresh(3)]};
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));$("saveStatus").textContent="✓ Data tersimpan otomatis di browser ini."}catch(e){$("saveStatus").textContent="Penyimpanan otomatis gagal; periksa pengaturan browser."}}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||"null");if(!x||!Array.isArray(x.chairs))return;state.rate=num(x.rate??10000);state.minutes=Math.max(1,num(x.minutes??7));state.chairs=x.chairs.map((c,i)=>({id:String(c.id||"c"+i),name:String(c.name||"Kursi "+(i+1)),startTime:String(c.startTime??""),endTime:String(c.endTime??""),startMoney:String(c.startMoney??""),endMoney:String(c.endMoney??""),actual:String(c.actual??"")}))}catch(e){}}
+function parseTime(v){const m=String(v||"").trim().match(/^(\d+):([0-5]?\d)$/);if(!m)return null;const h=Number(m[1]);return Number.isSafeInteger(h)?h*60+Number(m[2]):null}
+function duration(n){if(n===null)return"—";return Math.floor(n/60)+" jam "+(n%60)+" menit"}
+function calc(c){
+ const a=parseTime(c.startTime),b=parseTime(c.endTime);let elapsed=null,tw="";
+ if(c.startTime.trim()||c.endTime.trim()){if(a===null||b===null)tw="Format waktu belum lengkap/tidak valid.";else if(b<a)tw="Waktu akhir lebih kecil dari awal.";else elapsed=b-a}
+ const pack=elapsed===null?null:Math.floor(elapsed/Math.max(1,num(state.minutes))), time=pack===null?null:pack*Math.max(0,num(state.rate));
+ let delta=null,mw="",ms=String(c.startMoney).trim(),me=String(c.endMoney).trim();
+ if(ms||me){if(!ms||!me)mw="Data Money belum lengkap.";else if(!Number.isFinite(Number(ms))||!Number.isFinite(Number(me)))mw="Angka Money tidak valid.";else if(Number(me)<Number(ms))mw="Money akhir lebih kecil dari awal.";else delta=Number(me)-Number(ms)}
+ const moneyEst=delta===null?null:delta*Math.max(0,num(state.rate)),at=String(c.actual).trim()===""?null:Number(c.actual),actual=at!==null&&Number.isFinite(at)?at:null,diff=actual!==null&&time!==null?actual-time:null;
+ const warnings=[];if(tw)warnings.push(tw);if(mw)warnings.push(mw);if(actual!==null&&actual<0)warnings.push("Pendapatan aktual negatif.");if(diff!==null&&diff!==0)warnings.push("Aktual berbeda dari estimasi waktu.");
+ return{elapsed,pack,time,delta,moneyEst,actual,diff,warnings};
 }
-function restore(){
- try{
- const s=JSON.parse(localStorage.getItem(key)||"null");
- if(s&&Array.isArray(s.data)&&s.data.length){
- data=s.data;current=Math.min(s.current||0,data.length-1);
- $("rate").value=s.rate??"10000";$("mins").value=s.mins??"7";
- }
- }catch(e){}
-}
-function money(n){return "Rp"+Math.round(n||0).toLocaleString("id-ID")}
-function num(v){if(String(v).trim()==="")return null;let n=Number(v);return Number.isFinite(n)&&n>=0?n:null}
-function parseTime(v){let m=String(v).trim().match(/^(\d+):([0-5]\d)$/);return m?Number(m[1])*60+Number(m[2]):null}
-function store(){data[current]={start:$("start").value,end:$("end").value,moneyStart:$("moneyStart").value,moneyEnd:$("moneyEnd").value,revenue:$("revenue").value}}
-function calc(d){
- let a=parseTime(d.start),b=parseTime(d.end),ma=num(d.moneyStart),mb=num(d.moneyEnd),rev=num(d.revenue);
- let rate=num($("rate").value),mins=num($("mins").value);
- let vt=a!==null&&b!==null&&b>=a&&rate>0&&mins>0;
- let vm=ma!==null&&mb!==null&&mb>=ma&&rate>0;
- let elapsed=vt?b-a:null,delta=vm?mb-ma:null;
- let packs=vt?Math.floor(elapsed/mins):null;
- let ti=vt?packs*rate:null,mi=vm?delta*rate:null;
- let issues=[];
- if(!vt)issues.push("Periksa waktu, tarif, dan durasi paket.");
- if(!vm)issues.push("Periksa angka Money.");
- if(rev===null)issues.push("Pendapatan belum valid.");
- if(ti!==null&&rev!==null&&rev<ti)issues.push("Pendapatan di bawah estimasi waktu.");
- if(mi!==null&&rev!==null&&rev<mi)issues.push("Pendapatan di bawah estimasi Money.");
- return {vt,vm,valid:rev!==null,elapsed,delta,packs,ti,mi,rev,issues};
-}
-function renderTabs(){
- $("tabs").innerHTML=data.map((d,i)=>`<button class="tab ${i===current?"active":""}" data-i="${i}">Kursi ${i+1}</button>`).join("");
- $("tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{store();current=Number(b.dataset.i);load()});
-}
-function load(){
- let d=data[current];
- ["start","end","moneyStart","moneyEnd","revenue"].forEach(k=>$(k).value=d[k]);
- $("remove").disabled=data.length===1;
- render();
-}
-function render(){
- store();
- let all=data.map(calc),r=all[current];
- $("count").textContent=data.length;
- $("duration").textContent=r.vt?Math.floor(r.elapsed/60)+" jam "+r.elapsed%60+" menit":"—";
- $("packages").textContent=r.vt?r.packs+" paket":"—";
- $("timeEstimate").textContent=r.ti===null?"—":money(r.ti);
- $("moneyDiff").textContent=r.delta===null?"—":r.delta.toLocaleString("id-ID");
- $("moneyEstimate").textContent=r.mi===null?"—":money(r.mi);
- $("actual").textContent=r.rev===null?"—":money(r.rev);
- $("diffTime").textContent=r.ti===null||r.rev===null?"—":(r.rev-r.ti>=0?"+":"−")+money(Math.abs(r.rev-r.ti));
- $("diffMoney").textContent=r.mi===null||r.rev===null?"—":(r.rev-r.mi>=0?"+":"−")+money(Math.abs(r.rev-r.mi));
- $("alert").className="notice "+(r.issues.length?"warn":"ok");
- $("alert").innerHTML=r.issues.length?"<b>Perlu diperiksa</b><br>"+r.issues.join("<br>"):"✓ Tidak ada kekurangan yang terdeteksi.";
- $("totalActual").textContent=all.every(x=>x.valid)?money(all.reduce((s,x)=>s+x.rev,0)):"Input belum valid";
- $("totalTime").textContent=all.every(x=>x.ti!==null)?money(all.reduce((s,x)=>s+x.ti,0)):"Input belum valid";
- $("totalMoney").textContent=all.every(x=>x.mi!==null)?money(all.reduce((s,x)=>s+x.mi,0)):"Input belum valid";
- $("warningCount").textContent=all.filter(x=>x.issues.length).length;
- $("grand").textContent=all.every(x=>x.valid)?money(all.reduce((s,x)=>s+x.rev,0)):"Input belum valid";
- $("rows").innerHTML=all.map((x,i)=>`<tr><td>Kursi ${i+1}</td><td>${x.vt?Math.floor(x.elapsed/60)+"j "+x.elapsed%60+"m":"—"}</td><td>${x.delta===null?"—":x.delta}</td><td>${x.ti===null?"—":money(x.ti)}</td><td>${x.mi===null?"—":money(x.mi)}</td><td>${x.rev===null?"—":money(x.rev)}</td><td>${x.issues.length?"Periksa":"Sesuai"}</td></tr>`).join("");
- renderTabs();save();
-}
-["start","end","moneyStart","moneyEnd","revenue","rate","mins"].forEach(id=>$(id).addEventListener("input",render));
-$("add").onclick=()=>{store();data.push(blank());current=data.length-1;load()};
-$("remove").onclick=()=>{if(data.length<=1)return;data.splice(current,1);current=Math.max(0,current-1);load()};
-$("reset").onclick=()=>{data[current]=blank();load()};
+function resultsHtml(c){const r=calc(c);return `<div class="result-box"><div class="result-label">Durasi terpakai</div><div class="result-value">${esc(duration(r.elapsed))}</div></div><div class="result-box"><div class="result-label">Paket penuh</div><div class="result-value">${r.pack??"—"}</div></div><div class="result-box"><div class="result-label">Estimasi waktu</div><div class="result-value green">${r.time===null?"—":esc(money(r.time))}</div></div><div class="result-box"><div class="result-label">Estimasi Money</div><div class="result-value blue">${r.moneyEst===null?"—":esc(money(r.moneyEst))}</div></div><div class="result-box"><div class="result-label">Selisih Money</div><div class="result-value">${r.delta??"—"}</div></div><div class="result-box"><div class="result-label">Selisih aktual vs waktu</div><div class="result-value">${r.diff===null?"—":esc(money(r.diff))}</div></div>`}
+function noticeHtml(c){const w=calc(c).warnings;return w.length?`<div class="notice warning">${w.map(esc).join("<br>")}</div>`:'<div class="notice">✓ Tidak ada masalah format yang terdeteksi.</div>'}
+function renderChairs(){const host=$("chairs");if(!state.chairs.length){host.innerHTML='<div class="empty">Belum ada kursi.</div>';return}host.innerHTML=state.chairs.map((c,i)=>`<article class="chair"><div class="chair-head"><h3>${esc(c.name)}</h3><button class="danger small" data-remove="${esc(c.id)}">Hapus</button></div><div class="field" style="margin-bottom:11px"><label>Nama kursi</label><input data-field="name" data-id="${esc(c.id)}" maxlength="60" value="${esc(c.name)}"></div><div class="grid">
+<div class="field"><label>Waktu awal (jam:menit)</label><input data-field="startTime" data-id="${esc(c.id)}" value="${esc(c.startTime)}" placeholder="800:00" inputmode="decimal"></div>
+<div class="field"><label>Waktu akhir (jam:menit)</label><input data-field="endTime" data-id="${esc(c.id)}" value="${esc(c.endTime)}" placeholder="810:30" inputmode="decimal"></div>
+<div class="field"><label>Money awal</label><input type="number" min="0" data-field="startMoney" data-id="${esc(c.id)}" value="${esc(c.startMoney)}" placeholder="0"></div>
+<div class="field"><label>Money akhir</label><input type="number" min="0" data-field="endMoney" data-id="${esc(c.id)}" value="${esc(c.endMoney)}" placeholder="0"></div>
+<div class="field" style="grid-column:1/-1"><label>Pendapatan aktual (Rp)</label><input type="number" min="0" step="500" data-field="actual" data-id="${esc(c.id)}" value="${esc(c.actual)}" placeholder="Masukkan pendapatan aktual"></div></div><div class="chair-result">${resultsHtml(c)}</div>${noticeHtml(c)}</article>`).join("")}
+function renderSummary(){const rows=state.chairs.map(c=>{const r=calc(c);return`<tr><td>${esc(c.name)}</td><td>${esc(c.startTime||"—")}</td><td>${esc(c.endTime||"—")}</td><td>${esc(duration(r.elapsed))}</td><td>${r.pack??"—"}</td><td>${esc(c.startMoney||"—")}</td><td>${esc(c.endMoney||"—")}</td><td>${r.delta??"—"}</td><td>${r.time===null?"—":esc(money(r.time))}</td><td>${r.moneyEst===null?"—":esc(money(r.moneyEst))}</td><td>${r.actual===null?"—":esc(money(r.actual))}</td><td>${r.diff===null?"—":esc(money(r.diff))}</td></tr>`});$("summary").innerHTML=rows.join("")||'<tr><td colspan="12" class="empty">Belum ada data kursi.</td></tr>'}
+function renderDash(){const rs=state.chairs.map(calc),actual=rs.reduce((s,r)=>s+(r.actual??0),0),time=rs.reduce((s,r)=>s+(r.time??0),0),mon=rs.reduce((s,r)=>s+(r.moneyEst??0),0),diff=actual-time,w=rs.filter(r=>r.warnings.length).length;$("totalChairs").textContent=state.chairs.length;$("totalActual").textContent=money(actual);$("totalTime").textContent=money(time);$("totalMoney").textContent=money(mon);$("totalDiff").textContent=money(diff);$("totalDiff").className="stat-value "+(diff<0?"red":diff>0?"green":"");$("warningCount").textContent=w?w+" perlu cek":"Aman";$("warningCount").className="stat-value "+(w?"red":"green")}
+function render(){ $("rate").value=state.rate;$("minutes").value=state.minutes;renderChairs();renderSummary();renderDash();save()}
+function add(){state.chairs.push(fresh(state.chairs.length+1));render()}
+$("addTop").onclick=add;$("addBottom").onclick=add;
+$("rate").addEventListener("input",e=>{state.rate=Math.max(0,num(e.target.value));render()});
+$("minutes").addEventListener("input",e=>{state.minutes=Math.max(1,num(e.target.value));render()});
+$("chairs").addEventListener("input",e=>{const el=e.target,f=el.dataset.field,id=el.dataset.id;if(!f||!id)return;const c=state.chairs.find(x=>x.id===id);if(!c)return;c[f]=el.value;const card=el.closest(".chair");card.querySelector(".chair-result").innerHTML=resultsHtml(c);card.querySelector(".notice").outerHTML=noticeHtml(c);renderSummary();renderDash();save()});
+$("chairs").addEventListener("click",e=>{const b=e.target.closest("[data-remove]");if(!b)return;if(state.chairs.length<=1){alert("Minimal harus ada satu kursi.");return}const c=state.chairs.find(x=>x.id===b.dataset.remove);if(confirm("Hapus "+(c?.name||"kursi")+"?")){state.chairs=state.chairs.filter(x=>x.id!==b.dataset.remove);render()}});
+$("reset").onclick=()=>{if(confirm("Reset semua data kursi dan pengaturan?")){state={rate:10000,minutes:7,chairs:[fresh(1),fresh(2),fresh(3)]};render()}};
+function exportRows(){const rows=[["Nama Kursi","Waktu Awal","Waktu Akhir","Durasi (menit)","Durasi","Paket Penuh","Money Awal","Money Akhir","Selisih Money","Estimasi Waktu (Rp)","Estimasi Money (Rp)","Aktual (Rp)","Selisih Aktual (Rp)","Catatan"]];state.chairs.forEach(c=>{const r=calc(c);rows.push([c.name,c.startTime,c.endTime,r.elapsed??"",r.elapsed===null?"":duration(r.elapsed),r.pack??"",c.startMoney,c.endMoney,r.delta??"",r.time??"",r.moneyEst??"",r.actual??"",r.diff??"",r.warnings.join("; ")])});rows.push([],["Tarif per paket (Rp)",state.rate],["Durasi per paket (menit)",state.minutes]);return rows}
+function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+$("csv").onclick=()=>download(new Blob(["\uFEFF"+exportRows().map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"}),"rekap-kursi-pijat.csv");
+async function loadXlsx(){if(window.XLSX)return window.XLSX;await new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";s.onload=resolve;s.onerror=()=>reject(new Error("Library Excel gagal dimuat. Periksa koneksi internet."));document.head.appendChild(s)});if(!window.XLSX)throw Error("Library Excel tidak tersedia.");return window.XLSX}
+$("excel").onclick=async()=>{const b=$("excel"),old=b.textContent;b.disabled=true;b.textContent="Menyiapkan Excel...";try{const X=await loadXlsx(),ws=X.utils.aoa_to_sheet(exportRows()),wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws,"Rekap Kursi");X.writeFile(wb,"rekap-kursi-pijat.xlsx")}catch(e){alert("Ekspor Excel gagal: "+e.message+"\nCoba Ekspor CSV sebagai alternatif.");}finally{b.disabled=false;b.textContent=old}};
 $("pdf").onclick=()=>window.print();
-$("copy").onclick=async()=>{let text=$("rows").innerText;try{await navigator.clipboard.writeText(text);alert("Rekap disalin")}catch(e){prompt("Salin rekap:",text)}};
-function exportRows(){return data.map((d,i)=>{let x=calc(d);return {"Kursi":"Kursi "+(i+1),"Waktu sebelumnya":d.start,"Waktu saat ini":d.end,"Durasi":x.vt?Math.floor(x.elapsed/60)+" jam "+x.elapsed%60+" menit":"Input tidak valid","Money sebelumnya":d.moneyStart,"Money saat ini":d.moneyEnd,"Selisih Money":x.delta??"","Tarif per paket":$("rate").value,"Durasi paket menit":$("mins").value,"Estimasi waktu":x.ti??"","Estimasi Money":x.mi??"","Pendapatan":x.rev??"","Status":x.issues.join(" ")||"Sesuai"}})}
-function download(name,blob){let url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
-$("csv").onclick=()=>{let rr=exportRows(),keys=Object.keys(rr[0]);let text=[keys,...rr.map(r=>keys.map(k=>r[k]))].map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");download("rekap_collection.csv",new Blob(["\ufeff"+text],{type:"text/csv;charset=utf-8"}))};
-$("excel").onclick=()=>{
-  try {
-    if (!window.XLSX) {
-      alert("Library Excel belum dimuat. Periksa koneksi internet, lalu muat ulang halaman.");
-      return;
-    }
-
-    const rows = exportRows();
-    const wb = XLSX.utils.book_new();
-
-    const ws = XLSX.utils.json_to_sheet(rows);
-
-    ws["!cols"] = [
-      {wch:12},{wch:18},{wch:18},{wch:20},
-      {wch:18},{wch:18},{wch:15},{wch:16},
-      {wch:18},{wch:18},{wch:18},{wch:18},{wch:40}
-    ];
-
-    XLSX.utils.book_append_sheet(wb, ws, "Rekap Collection");
-
-    const summary = [
-      ["RINGKASAN COLLECTION KURSI PIJAT", "Nilai"],
-      ["Jumlah kursi", data.length],
-      ["Tarif per paket (Rp)", Number($("rate").value) || 0],
-      ["Durasi per paket (menit)", Number($("mins").value) || 0],
-      ["Total pendapatan aktual (Rp)", data.reduce((s,d) => s + (Number(d.revenue) || 0), 0)]
-    ];
-
-    const ws2 = XLSX.utils.aoa_to_sheet(summary);
-    XLSX.utils.book_append_sheet(wb, ws2, "Ringkasan");
-
-    XLSX.writeFile(wb, "Rekap_Collection_Kursi_Pijat.xlsx");
-  } catch (err) {
-    alert("Ekspor Excel gagal: " + err.message);
-  }
-};
-restore();load();
+$("copy").onclick=async()=>{const text=exportRows().map(r=>r.join("\t")).join("\n");try{await navigator.clipboard.writeText(text);alert("Rekap berhasil disalin.")}catch(e){const t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();const ok=document.execCommand("copy");t.remove();alert(ok?"Rekap berhasil disalin.":"Gagal menyalin; gunakan Ekspor CSV.")}};
+load();render();
 </script>
 </body>
-  </html>
+</html>
